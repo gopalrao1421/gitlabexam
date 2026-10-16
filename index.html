@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Placement Management System</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #123c69;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 15px;
+            background: #205493;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px #cbd5e1;
+        }
+
+        .card p {
+            color: #205493;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin: 5px 3px;
+        }
+
+        button {
+            background: #205493;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #205493;
+            color: white;
+        }
+
+        footer {
+            background: #123c69;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            main {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>College Placement Management System</h1>
+        <p>Manage Students, Companies and Placements</p>
+    </header>
+
+    <nav>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#students">Students</a>
+        <a href="#companies">Companies</a>
+    </nav>
+
+    <main>
+        <section id="dashboard">
+            <h2>Placement Dashboard</h2>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>Total Students</h3>
+                    <p id="totalStudents">3</p>
+                </div>
+
+                <div class="card">
+                    <h3>Companies</h3>
+                    <p>5</p>
+                </div>
+
+                <div class="card">
+                    <h3>Students Placed</h3>
+                    <p id="placedCount">2</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="students">
+            <h2>Student Details</h2>
+
+            <form id="studentForm">
+                <input id="studentName"
+                       type="text"
+                       placeholder="Student Name"
+                       required>
+
+                <input id="studentBranch"
+                       type="text"
+                       placeholder="Branch"
+                       required>
+
+                <select id="studentStatus">
+                    <option value="Not Placed">Not Placed</option>
+                    <option value="Placed">Placed</option>
+                </select>
+
+                <button type="submit">Add Student</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Branch</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable">
+                    <tr>
+                        <td>101</td>
+                        <td>Rahul</td>
+                        <td>CSE</td>
+                        <td>Placed</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Priya</td>
+                        <td>CSE</td>
+                        <td>Placed</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>Arjun</td>
+                        <td>ECE</td>
+                        <td>Not Placed</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="companies">
+            <h2>Recruiting Companies</h2>
+            <ul>
+                <li>TCS</li>
+                <li>Infosys</li>
+                <li>Wipro</li>
+                <li>Accenture</li>
+                <li>Amazon</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>College Placement Management System | Lab Insem-1</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById("studentForm");
+        const table = document.getElementById("studentTable");
+
+        function updateCounts() {
+            const rows = table.querySelectorAll("tr");
+            let placed = 0;
+
+            rows.forEach(function(row) {
+                if (row.cells[3].textContent === "Placed") {
+                    placed++;
+                }
+            });
+
+            document.getElementById("totalStudents").textContent =
+                rows.length;
+
+            document.getElementById("placedCount").textContent =
+                placed;
+        }
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name =
+                document.getElementById("studentName").value.trim();
+
+            const branch =
+                document.getElementById("studentBranch").value.trim();
+
+            const status =
+                document.getElementById("studentStatus").value;
+
+            if (!name || !branch) {
+                alert("Please enter student name and branch.");
+                return;
+            }
+
+            const id = 101 + table.querySelectorAll("tr").length;
+
+            const row = table.insertRow();
+
+            row.insertCell(0).textContent = id;
+            row.insertCell(1).textContent = name;
+            row.insertCell(2).textContent = branch;
+            row.insertCell(3).textContent = status;
+
+            form.reset();
+            updateCounts();
+
+            alert("Student added successfully!");
+        });
+
+        updateCounts();
+    </script>
+</body>
+</html>
